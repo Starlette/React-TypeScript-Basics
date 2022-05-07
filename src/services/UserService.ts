@@ -1,27 +1,14 @@
-import { IUser } from "../models/User";
+import axios, { AxiosPromise } from "axios";
+import { User } from "../models/User";
 
 export class UserService {
-	private static users: IUser[] = [{
-		uid: '001',
-		name: 'Chantelle Bradley',
-		age: 30,
-		designation: 'Software Engineer',
-		company: 'Starlette'
-	}, {
-		uid: '002',
-		name: 'John Doe',
-		age: 32,
-		designation: 'Assistant',
-		company: 'Google'
-	}, {
-		uid: '003',
-		name: 'Jane Doe',
-		age: 55,
-		designation: 'CEO',
-		company: 'LinkedIn'
-	}];
+	private static serverUrl: string = 'https://jsonplaceholder.typicode.com';
 
-	public static getAllUsers(): IUser[] {
-		return this.users;
+	public static getAllUsers(): AxiosPromise<User[]> {
+		return axios.get<User[]>( `${this.serverUrl}/users` );
   	}
+
+	public static getUser( userId: string | undefined ): AxiosPromise<User> {
+		return axios.get<User>( `${this.serverUrl}/users/${userId}` );
+	}
 }
